@@ -12,12 +12,12 @@ describe 'Test Git Commands Mapper and Gateway' do
     VcrHelper.configure_vcr_for_github
     DatabaseHelper.wipe_database
 
-    gh_project = CodePraise::Github::ProjectMapper.
-      new(GITHUB_TOKEN).
-      find(USERNAME, PROJECT_NAME)
+    gh_project = CodePraise::Github::ProjectMapper
+      .new(GITHUB_TOKEN)
+      .find(USERNAME, PROJECT_NAME)
 
-    project = CodePraise::Repository::For.entity(gh_project).
-      create(gh_project)
+    project = CodePraise::Repository::For.entity(gh_project)
+      .create(gh_project)
 
     @gitrepo = CodePraise::GitRepo.new(project)
     @gitrepo.clone! unless @gitrepo.exists_locally?
@@ -32,8 +32,9 @@ describe 'Test Git Commands Mapper and Gateway' do
     _(root.subfolders.count).must_equal 10
     _(root.base_files.count).must_equal 2
 
-    _(root.base_files.first.file_path.filename).must_equal 'init.rb'
-    _(root.subfolders.first.path).must_equal 'views_objects'
+    first_file = root.base_files.first
+    _(%w[init.rb README.md]).must_include first_file.file_path.filename
+    _(root.subfolders.first.path.size).must_be :>, 0
 
     _(root.subfolders.map(&:credit_share).reduce(&:+) +
       root.base_files.map(&:credit_share).reduce(&:+))

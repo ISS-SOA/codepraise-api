@@ -8,21 +8,15 @@ module CodePraise
     class AddProject
       include Dry::Transaction
 
-      step :validate_input
       step :find_project
       step :store_project
 
       private
 
-      def validate_input(input)
-        if input.success?
-          owner_name, project_name = input[:remote_url].split('/')[-2..-1]
-          Success(owner_name: owner_name, project_name: project_name)
-        else
-          Failure(input.errors.values.join('; '))
-        end
-      end
+      DB_ERR_MSG = 'Having trouble accessing the database'
+      GH_NOT_FOUND_MSG = 'Could not find that project on Github'
 
+      # Expects input[:owner_name] and input[:project_name]
       def find_project(input)
         if (project = project_in_database(input))
           input[:local_project] = project
@@ -31,30 +25,31 @@ module CodePraise
         end
         Success(input)
       rescue StandardError => error
-        Failure(error.to_s)
+        Failure(Value::Result.new(status: :not_found,
+                                  message: error.to_s))
       end
 
       def store_project(input)
-        project =
-          if (new_proj = input[:remote_project])
-            Repository::For.entity(new_proj).create(new_proj)
-          else
-            input[:local_project]
-          end
-        Success(project)
+        if (new_proj = input[:remote_project])
+          Repository::For.entity(new_proj).create(new_proj)
+        else
+          input[:local_project]
+        end.yield_self do |project|
+          Success(Value::Result.new(status: :created, message: project))
+        end
       rescue StandardError => error
         puts error.backtrace.join("\n")
-        Failure('Having trouble accessing the database')
+        Failure(Value::Result.new(status: :internal_error, message: DB_ERR_MSG))
       end
 
       # following are support methods that other services could use
 
       def project_from_github(input)
         Github::ProjectMapper
-          .new(App.config.GITHUB_TOKEN)
+          .new(Api.config.GITHUB_TOKEN)
           .find(input[:owner_name], input[:project_name])
       rescue StandardError
-        raise 'Could not find that project on Github'
+        raise GH_NOT_FOUND_MSG
       end
 
       def project_in_database(input)

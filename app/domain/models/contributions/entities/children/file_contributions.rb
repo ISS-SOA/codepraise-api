@@ -18,6 +18,10 @@ module CodePraise
         @lines = lines
       end
 
+      def total_credits
+        credit_share.total_credits
+      end
+
       def credit_share
         return Value::CreditShare.new if not_wanted
 
@@ -28,8 +32,10 @@ module CodePraise
       end
 
       def contributors
-        credit_share.keys
+        credit_share.contributors
       end
+
+      private
 
       def not_wanted
         !wanted

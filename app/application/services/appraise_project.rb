@@ -8,29 +8,29 @@ module CodePraise
     class AppraiseProject
       include Dry::Transaction
 
-      step :validate_project
       step :retrieve_remote_project
       step :clone_remote
       step :appraise_contributions
 
       private
 
-      def validate_project(input)
-        if input[:watched_list].include? input[:requested].project_fullname
-          Success(input)
-        else
-          Failure('Please first request this project to be added to your list')
-        end
-      end
+      NO_PROJ_MSG = 'Project not found'
+      DB_ERR_MSG = 'Having trouble accessing the database'
+      CLONE_ERR_MSG = 'Could not clone this project'
+      FOLDER_NOT_FOUND_MSG = 'Could not find that folder'
 
       def retrieve_remote_project(input)
         input[:project] = Repository::For.klass(Entity::Project).find_full_name(
           input[:requested].owner_name, input[:requested].project_name
         )
 
-        input[:project] ? Success(input) : Failure('Project not found')
+        if input[:project]
+          Success(input)
+        else
+          Failure(Value::Result.new(status: :not_found, message: NO_PROJ_MSG))
+        end
       rescue StandardError
-        Failure('Having trouble accessing the database')
+        Failure(Value::Result.new(status: :internal_error, message: DB_ERR_MSG))
       end
 
       def clone_remote(input)
@@ -40,16 +40,21 @@ module CodePraise
         Success(input.merge(gitrepo: gitrepo))
       rescue StandardError
         puts error.backtrace.join("\n")
-        Failure('Could not clone this project')
+        Failure(Value::Result.new(status: :internal_error,
+                                  message: CLONE_ERR_MSG))
       end
 
       def appraise_contributions(input)
         input[:folder] = Mapper::Contributions
           .new(input[:gitrepo]).for_folder(input[:requested].folder_name)
 
-        Success(input)
+        Value::ProjectFolderContributions.new(input[:project], input[:folder])
+          .yield_self do |appraisal|
+            Success(Value::Result.new(status: :ok, message: appraisal))
+          end
       rescue StandardError
-        Failure('Could not find that folder')
+        Failure(Value::Result.new(status: :not_found,
+                                  message: FOLDER_NOT_FOUND_MSG))
       end
     end
   end

@@ -21,6 +21,10 @@ module CodePraise
         files.map(&:line_count).reduce(&:+)
       end
 
+      def total_credits
+        files.map(&:total_credits).sum
+      end
+
       def lines
         files.map(&:lines).reduce(&:+)
       end
@@ -58,8 +62,10 @@ module CodePraise
       end
 
       def contributors
-        credit_share.keys
+        credit_share.contributors
       end
+
+      private
 
       def comparitive_path
         path.empty? ? path : path + '/'

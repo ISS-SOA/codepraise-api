@@ -22,6 +22,8 @@ module CodePraise
         matches[:folder]
       end
 
+      private
+
       def parse_path
         return if @names
 

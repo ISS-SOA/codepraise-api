@@ -1,15 +1,18 @@
 ---
 development:
+  API_HOST: http://localhost:9000
   # Infrastructure
   DB_FILENAME:    app/infrastructure/database/local/dev.db
   REPOSTORE_PATH: app/infrastructure/git/repostore
 
 test:
+  API_HOST: http://localhost:9090
   # Infrastructure
   DB_FILENAME:    app/infrastructure/database/local/test.db
   REPOSTORE_PATH: app/infrastructure/git/repostore
 
 app_test:
+  API_HOST: http://localhost:9090
   # Infrastructure
   DB_FILENAME:    app/infrastructure/database/local/test.db
   REPOSTORE_PATH: app/infrastructure/git/repostore
@@ -17,5 +20,6 @@ app_test:
   APP_HOST: http://localhost:9000
 
 production:
+  API_HOST: https://codepraise-api.herokuapp.com
   # Infrastructure
   REPOSTORE_PATH: app/infrastructure/git/repostore

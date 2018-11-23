@@ -18,7 +18,7 @@ describe 'AppraiseProject Service Integration Test' do
     VcrHelper.eject_vcr
   end
 
-  describe 'Appraise a Project' do
+  describe 'List Projects' do
     before do
       DatabaseHelper.wipe_database
     end
@@ -31,15 +31,18 @@ describe 'AppraiseProject Service Integration Test' do
       db_project = CodePraise::Repository::For.entity(gh_project)
         .create(gh_project)
 
-      watched_list = [USERNAME + '/' + PROJECT_NAME]
-
       # WHEN: we request a list of all watched projects
-      result = CodePraise::Service::ListProjects.new.call(watched_list)
+      list_request = CodePraise::Value::ListRequest.to_request(
+        [USERNAME + '/' + PROJECT_NAME]
+      )
+      result = CodePraise::Service::ListProjects.new.call(
+        list_request: list_request
+      )
 
       # THEN: we should see our project in the resulting list
       _(result.success?).must_equal true
-      projects = result.value!
-      _(projects).must_include db_project
+      list = result.value!.message
+      _(list.projects).must_include db_project
     end
 
     it 'HAPPY: should not return projects that are not being watched' do
@@ -50,28 +53,33 @@ describe 'AppraiseProject Service Integration Test' do
       CodePraise::Repository::For.entity(gh_project)
         .create(gh_project)
 
-      watched_list = []
-
-      # WHEN: we request a list of all watched projects
-      result = CodePraise::Service::ListProjects.new.call(watched_list)
+      # WHEN: we request an empty list
+      list_request = CodePraise::Value::ListRequest.to_request([])
+      result = CodePraise::Service::ListProjects.new.call(
+        list_request: list_request
+      )
 
       # THEN: it should return an empty list
       _(result.success?).must_equal true
-      projects = result.value!
-      _(projects).must_equal []
+      list = result.value!.message
+      _(list.projects).must_equal []
     end
 
     it 'SAD: should not watched projects if they are not loaded' do
       # GIVEN: we are watching a project that does not exist locally
-      watched_list = [USERNAME + '/' + PROJECT_NAME]
+      list_request = CodePraise::Value::ListRequest.to_request(
+        [USERNAME + '/' + PROJECT_NAME]
+      )
 
       # WHEN: we request a list of all watched projects
-      result = CodePraise::Service::ListProjects.new.call(watched_list)
+      result = CodePraise::Service::ListProjects.new.call(
+        list_request: list_request
+      )
 
       # THEN: it should return an empty list
       _(result.success?).must_equal true
-      projects = result.value!
-      _(projects).must_equal []
+      list = result.value!.message
+      _(list.projects).must_equal []
     end
   end
 end

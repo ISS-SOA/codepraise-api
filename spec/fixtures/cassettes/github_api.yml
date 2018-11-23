@@ -517,4 +517,75 @@ http_interactions:
       string: '[{"login":"Yuan-Yu","id":8809778,"node_id":"MDQ6VXNlcjg4MDk3Nzg=","avatar_url":"https://avatars2.githubusercontent.com/u/8809778?v=4","gravatar_id":"","url":"https://api.github.com/users/Yuan-Yu","html_url":"https://github.com/Yuan-Yu","followers_url":"https://api.github.com/users/Yuan-Yu/followers","following_url":"https://api.github.com/users/Yuan-Yu/following{/other_user}","gists_url":"https://api.github.com/users/Yuan-Yu/gists{/gist_id}","starred_url":"https://api.github.com/users/Yuan-Yu/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/Yuan-Yu/subscriptions","organizations_url":"https://api.github.com/users/Yuan-Yu/orgs","repos_url":"https://api.github.com/users/Yuan-Yu/repos","events_url":"https://api.github.com/users/Yuan-Yu/events{/privacy}","received_events_url":"https://api.github.com/users/Yuan-Yu/received_events","type":"User","site_admin":false,"contributions":48},{"login":"SOA-KunLin","id":22166763,"node_id":"MDQ6VXNlcjIyMTY2NzYz","avatar_url":"https://avatars2.githubusercontent.com/u/22166763?v=4","gravatar_id":"","url":"https://api.github.com/users/SOA-KunLin","html_url":"https://github.com/SOA-KunLin","followers_url":"https://api.github.com/users/SOA-KunLin/followers","following_url":"https://api.github.com/users/SOA-KunLin/following{/other_user}","gists_url":"https://api.github.com/users/SOA-KunLin/gists{/gist_id}","starred_url":"https://api.github.com/users/SOA-KunLin/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/SOA-KunLin/subscriptions","organizations_url":"https://api.github.com/users/SOA-KunLin/orgs","repos_url":"https://api.github.com/users/SOA-KunLin/repos","events_url":"https://api.github.com/users/SOA-KunLin/events{/privacy}","received_events_url":"https://api.github.com/users/SOA-KunLin/received_events","type":"User","site_admin":false,"contributions":40},{"login":"luyimin","id":17100800,"node_id":"MDQ6VXNlcjE3MTAwODAw","avatar_url":"https://avatars1.githubusercontent.com/u/17100800?v=4","gravatar_id":"","url":"https://api.github.com/users/luyimin","html_url":"https://github.com/luyimin","followers_url":"https://api.github.com/users/luyimin/followers","following_url":"https://api.github.com/users/luyimin/following{/other_user}","gists_url":"https://api.github.com/users/luyimin/gists{/gist_id}","starred_url":"https://api.github.com/users/luyimin/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/luyimin/subscriptions","organizations_url":"https://api.github.com/users/luyimin/orgs","repos_url":"https://api.github.com/users/luyimin/repos","events_url":"https://api.github.com/users/luyimin/events{/privacy}","received_events_url":"https://api.github.com/users/luyimin/received_events","type":"User","site_admin":false,"contributions":21}]'
     http_version: 
   recorded_at: Wed, 17 Oct 2018 11:45:15 GMT
+- request:
+    method: get
+    uri: https://api.github.com/repos/0u9awfh4/q03g49sdflkj
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.github.v3+json
+      Authorization:
+      - token <GITHUB_TOKEN>
+      Connection:
+      - close
+      Host:
+      - api.github.com
+      User-Agent:
+      - http.rb/3.3.0
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Server:
+      - GitHub.com
+      Date:
+      - Wed, 21 Nov 2018 01:55:50 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '88'
+      Connection:
+      - close
+      Status:
+      - 404 Not Found
+      X-Ratelimit-Limit:
+      - '5000'
+      X-Ratelimit-Remaining:
+      - '4999'
+      X-Ratelimit-Reset:
+      - '1542768950'
+      X-Oauth-Scopes:
+      - read:user, user:email
+      X-Accepted-Oauth-Scopes:
+      - repo
+      X-Github-Media-Type:
+      - github.v3; format=json
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval,
+        X-GitHub-Media-Type
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      X-Frame-Options:
+      - deny
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Content-Security-Policy:
+      - default-src 'none'
+      X-Github-Request-Id:
+      - B9B1:59D4:E1183:23ED26:5BF4BB25
+    body:
+      encoding: UTF-8
+      string: '{"message":"Not Found","documentation_url":"https://developer.github.com/v3/repos/#get"}'
+    http_version: 
+  recorded_at: Wed, 21 Nov 2018 01:55:50 GMT
 recorded_with: VCR 4.0.0

@@ -11,7 +11,7 @@ module CodePraise
       CannotOverwriteLocalGitRepo = Class.new(StandardError)
     end
 
-    def initialize(repo, config = CodePraise::App.config)
+    def initialize(repo, config = CodePraise::Api.config)
       @repo = repo
       remote = Git::RemoteGitRepo.new(@repo.http_url)
       @local = Git::LocalGitRepo.new(remote, config.REPOSTORE_PATH)

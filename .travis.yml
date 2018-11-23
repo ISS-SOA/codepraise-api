@@ -1,0 +1,9 @@
+language: ruby
+rvm:
+  - 2.5.3
+install:
+  - gem install bundler
+  - bundle install
+script:
+  - bundle exec rake db:migrate
+  - bundle exec rake spec
