@@ -39,6 +39,47 @@ namespace :run do
   end
 end
 
+namespace :cache do
+  task :config do
+    require_relative 'config/environment.rb' # load config info
+    require_relative 'app/infrastructure/cache/init.rb' # load cache client
+    @api = CodePraise::Api
+  end
+
+  namespace :list do
+    task :dev do
+      puts 'Finding development cache'
+      list = `ls _cache`
+      puts 'No local cache found' if list.empty?
+      puts list
+    end
+
+    task :production => :config do
+      puts 'Finding production cache'
+      keys = CodePraise::Cache::Client.new(@api.config).keys
+      puts 'No keys found' if keys.none?
+      keys.each { |key| puts "Key: #{key}" }
+    end
+  end
+
+  namespace :wipe do
+    task :dev do
+      puts 'Deleting development cache'
+      sh 'rm -rf _cache/*'
+    end
+
+    task :production => :config do
+      print 'Are you sure you wish to wipe the production cache? (y/n) '
+      if STDIN.gets.chomp.downcase == 'y'
+        puts 'Deleting production cache'
+        wiped = CodePraise::Cache::Client.new(@api.config).wipe
+        wiped.keys.each { |key| puts "Wiped: #{key}" }
+      end
+    end
+  end
+end
+
+
 namespace :db do
   task :config do
     require 'sequel'

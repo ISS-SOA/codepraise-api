@@ -9,6 +9,7 @@ module CodePraise
 
     plugin :halt
     plugin :all_verbs
+    plugin :caching
     use Rack::MethodOverride
 
     route do |routing|
@@ -31,6 +32,8 @@ module CodePraise
           routing.on String, String do |owner_name, project_name|
             # GET /projects/{owner_name}/{project_name}[/folder_namepath/]
             routing.get do
+              response.cache_control public: true, max_age: 3600
+
               path_request = ProjectRequestPath.new(
                 owner_name, project_name, request
               )

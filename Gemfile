@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
+# source 'http://mirror.ops.rhcloud.com/mirror/ruby/'
 ruby '2.5.3'
 
 # PRESENTATION LAYER
@@ -11,6 +12,9 @@ gem 'roar'
 # Web application related
 gem 'econfig', '~> 2.1'
 gem 'puma', '~> 3.11'
+gem 'rack-cache', '~> 1.8'
+gem 'redis', '~> 4.0'
+gem 'redis-rack-cache', '~> 2.0'
 gem 'roda', '~> 3.8'
 
 # Controllers and services
