@@ -13,11 +13,15 @@ module CodePraise
       end
 
       def folder_report(folder_name)
-        folder_name = '' if ['/', ''].include? folder_name
+        folder_name = '' if folder_name == '/'
         raise not_found_error(folder_name) unless folder_exists?(folder_name)
 
-        fnames = @local.files.select { |file| file.start_with? folder_name }
-        @local.in_repo { fnames.map { |fname| [fname, file_report(fname)] } }
+        @local
+          .files
+          .select { |file| file.start_with? folder_name }
+          .yield_self do |fnames|
+            @local.in_repo { analyze_files_concurrently(fnames) }
+          end
       end
 
       def files(folder_name)
@@ -46,6 +50,20 @@ module CodePraise
 
       def not_found_error(folder_name)
         "#{NOT_FOUND_ERROR_MSG} (#{folder_name})"
+      end
+
+      # synchronous reporting of a list of files
+      def analyze_files(filenames)
+        filenames.map { |fname| [fname, file_report(fname)] }
+      end
+
+      # asynchronous reporting of a list of files
+      def analyze_files_concurrently(filenames)
+        filenames.map do |fname|
+          Concurrent::Promise
+            .execute { file_report(fname) }
+            .then { |freport| [fname, freport] }
+        end.map(&:value)
       end
     end
   end

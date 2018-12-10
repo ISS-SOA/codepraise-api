@@ -11,22 +11,22 @@ module CodePraise
       CannotOverwriteLocalGitRepo = Class.new(StandardError)
     end
 
-    def initialize(repo, config = CodePraise::Api.config)
-      @repo = repo
-      remote = Git::RemoteGitRepo.new(@repo.http_url)
+    def initialize(project, config = CodePraise::Api.config)
+      remote = Git::RemoteGitRepo.new(project.http_url)
       @local = Git::LocalGitRepo.new(remote, config.REPOSTORE_PATH)
+      @size = project.size
     end
 
     def local
       exists_locally? ? @local : raise(Errors::NoGitRepoFound)
     end
 
-    def delete!
-      @local.delete!
+    def delete
+      @local.delete
     end
 
     def too_large?
-      @repo.size > MAX_SIZE
+      @size > MAX_SIZE
     end
 
     def exists_locally?

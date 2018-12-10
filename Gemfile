@@ -30,6 +30,10 @@ gem 'dry-types', '~> 0.5'
 # Networking
 gem 'http', '~> 3.0'
 
+# Queues
+gem 'aws-sdk-sqs', '~> 1'
+gem 'shoryuken', '~> 4'
+
 # Database
 gem 'hirb', '~> 0.7'
 gem 'sequel', '~> 5.13'

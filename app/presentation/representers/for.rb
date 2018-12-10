@@ -39,8 +39,6 @@ module CodePraise
       def status_and_body(response)
         response.status = http_status_code
         to_json
-      rescue
-        binding.pry
       end
     end
   end

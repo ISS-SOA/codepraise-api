@@ -69,7 +69,7 @@ module CodePraise
         Dir.exist? @git_repo_path
       end
 
-      def delete!
+      def delete
         FileUtils.rm_rf(@git_repo_path)
       end
 

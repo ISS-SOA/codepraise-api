@@ -588,4 +588,136 @@ http_interactions:
       string: '{"message":"Not Found","documentation_url":"https://developer.github.com/v3/repos/#get"}'
     http_version: 
   recorded_at: Wed, 21 Nov 2018 01:55:50 GMT
+- request:
+    method: post
+    uri: https://sqs.us-east-1.amazonaws.com/503315808870/codepraise-clone-test
+    body:
+      encoding: UTF-8
+      string: Action=SendMessage&MessageBody=%7B%22origin_id%22%3A104999627%2C%22name%22%3A%22YPBT-app%22%2C%22fullname%22%3A%22soumyaray%2FYPBT-app%22%2C%22http_url%22%3A%22https%3A%2F%2Fgithub.com%2Fsoumyaray%2FYPBT-app%22%2C%22ssh_url%22%3A%22git%3A%2F%2Fgithub.com%2Fsoumyaray%2FYPBT-app.git%22%2C%22size%22%3A551%2C%22owner%22%3A%7B%22origin_id%22%3A1926704%2C%22username%22%3A%22soumyaray%22%7D%2C%22contributors%22%3A%5B%7B%22origin_id%22%3A8809778%2C%22username%22%3A%22Yuan-Yu%22%7D%2C%7B%22origin_id%22%3A22166763%2C%22username%22%3A%22SOA-KunLin%22%7D%2C%7B%22origin_id%22%3A17100800%2C%22username%22%3A%22luyimin%22%7D%5D%2C%22links%22%3A%5B%7B%22rel%22%3A%22self%22%2C%22href%22%3A%22http%3A%2F%2Flocalhost%3A9090%2Fapi%2Fv1%2Fprojects%2FYPBT-app%2Fsoumyaray%22%7D%5D%7D&QueueUrl=https%3A%2F%2Fsqs.us-east-1.amazonaws.com%2F503315808870%2Fcodepraise-clone-test&Version=2012-11-05
+    headers:
+      Content-Type:
+      - application/x-www-form-urlencoded; charset=utf-8
+      Accept-Encoding:
+      - ''
+      User-Agent:
+      - aws-sdk-ruby3/3.43.0 ruby/2.5.3 x86_64-darwin18 aws-sdk-sqs/1.10.0
+      Host:
+      - sqs.us-east-1.amazonaws.com
+      X-Amz-Date:
+      - 20181206T004501Z
+      X-Amz-Content-Sha256:
+      - c01ca91e95cb07f194180ced1b03f4f5372749d7ac3adbdae42c83ad509dc6a1
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=AKIAJNS3PNUYMXDVJEWA/20181206/us-east-1/sqs/aws4_request,
+        SignedHeaders=content-type;host;x-amz-content-sha256;x-amz-date, Signature=27ebd1446734e8f14213fcdaa962ea8908c7a9a586ac15b018699d5dbe62fabc
+      Content-Length:
+      - '878'
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amzn-Requestid:
+      - 2e215d90-cdfe-550e-81db-0912beb0400f
+      Date:
+      - Thu, 06 Dec 2018 00:45:02 GMT
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '378'
+    body:
+      encoding: UTF-8
+      string: <?xml version="1.0"?><SendMessageResponse xmlns="http://queue.amazonaws.com/doc/2012-11-05/"><SendMessageResult><MessageId>1484af09-ba93-419f-918f-51c1c356eae7</MessageId><MD5OfMessageBody>b68b9388e8767d17fd3dcd5d96b1b55c</MD5OfMessageBody></SendMessageResult><ResponseMetadata><RequestId>2e215d90-cdfe-550e-81db-0912beb0400f</RequestId></ResponseMetadata></SendMessageResponse>
+    http_version: 
+  recorded_at: Thu, 06 Dec 2018 00:45:02 GMT
+- request:
+    method: post
+    uri: https://sqs.us-east-1.amazonaws.com/503315808870/codepraise-clone-test
+    body:
+      encoding: UTF-8
+      string: Action=SendMessage&MessageBody=%7B%22origin_id%22%3A104999627%2C%22name%22%3A%22YPBT-app%22%2C%22fullname%22%3A%22soumyaray%2FYPBT-app%22%2C%22http_url%22%3A%22https%3A%2F%2Fgithub.com%2Fsoumyaray%2FYPBT-app%22%2C%22ssh_url%22%3A%22git%3A%2F%2Fgithub.com%2Fsoumyaray%2FYPBT-app.git%22%2C%22size%22%3A551%2C%22owner%22%3A%7B%22origin_id%22%3A1926704%2C%22username%22%3A%22soumyaray%22%7D%2C%22contributors%22%3A%5B%7B%22origin_id%22%3A8809778%2C%22username%22%3A%22Yuan-Yu%22%7D%2C%7B%22origin_id%22%3A22166763%2C%22username%22%3A%22SOA-KunLin%22%7D%2C%7B%22origin_id%22%3A17100800%2C%22username%22%3A%22luyimin%22%7D%5D%2C%22links%22%3A%5B%7B%22rel%22%3A%22self%22%2C%22href%22%3A%22http%3A%2F%2Flocalhost%3A9090%2Fapi%2Fv1%2Fprojects%2FYPBT-app%2Fsoumyaray%22%7D%5D%7D&QueueUrl=https%3A%2F%2Fsqs.us-east-1.amazonaws.com%2F503315808870%2Fcodepraise-clone-test&Version=2012-11-05
+    headers:
+      Content-Type:
+      - application/x-www-form-urlencoded; charset=utf-8
+      Accept-Encoding:
+      - ''
+      User-Agent:
+      - aws-sdk-ruby3/3.43.0 ruby/2.5.3 x86_64-darwin18 aws-sdk-sqs/1.10.0
+      Host:
+      - sqs.us-east-1.amazonaws.com
+      X-Amz-Date:
+      - 20181206T004502Z
+      X-Amz-Content-Sha256:
+      - c01ca91e95cb07f194180ced1b03f4f5372749d7ac3adbdae42c83ad509dc6a1
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=AKIAJNS3PNUYMXDVJEWA/20181206/us-east-1/sqs/aws4_request,
+        SignedHeaders=content-type;host;x-amz-content-sha256;x-amz-date, Signature=f9ad49d51e004a4ef5dc44528bf3786715b46a77169b29de7ca5a80a752a869b
+      Content-Length:
+      - '878'
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amzn-Requestid:
+      - a2e70182-039e-5fc7-ad4e-550070d15764
+      Date:
+      - Thu, 06 Dec 2018 00:45:03 GMT
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '378'
+    body:
+      encoding: UTF-8
+      string: <?xml version="1.0"?><SendMessageResponse xmlns="http://queue.amazonaws.com/doc/2012-11-05/"><SendMessageResult><MessageId>ab3c6a57-1741-4b26-ae29-8a57ac23d9d0</MessageId><MD5OfMessageBody>b68b9388e8767d17fd3dcd5d96b1b55c</MD5OfMessageBody></SendMessageResult><ResponseMetadata><RequestId>a2e70182-039e-5fc7-ad4e-550070d15764</RequestId></ResponseMetadata></SendMessageResponse>
+    http_version: 
+  recorded_at: Thu, 06 Dec 2018 00:45:03 GMT
+- request:
+    method: post
+    uri: https://sqs.us-east-1.amazonaws.com/503315808870/codepraise-clone-test
+    body:
+      encoding: UTF-8
+      string: Action=SendMessage&MessageBody=%7B%22origin_id%22%3A104999627%2C%22name%22%3A%22YPBT-app%22%2C%22fullname%22%3A%22soumyaray%2FYPBT-app%22%2C%22http_url%22%3A%22https%3A%2F%2Fgithub.com%2Fsoumyaray%2FYPBT-app%22%2C%22ssh_url%22%3A%22git%3A%2F%2Fgithub.com%2Fsoumyaray%2FYPBT-app.git%22%2C%22size%22%3A551%2C%22owner%22%3A%7B%22origin_id%22%3A1926704%2C%22username%22%3A%22soumyaray%22%7D%2C%22contributors%22%3A%5B%7B%22origin_id%22%3A8809778%2C%22username%22%3A%22Yuan-Yu%22%7D%2C%7B%22origin_id%22%3A22166763%2C%22username%22%3A%22SOA-KunLin%22%7D%2C%7B%22origin_id%22%3A17100800%2C%22username%22%3A%22luyimin%22%7D%5D%2C%22links%22%3A%5B%7B%22rel%22%3A%22self%22%2C%22href%22%3A%22http%3A%2F%2Flocalhost%3A9090%2Fapi%2Fv1%2Fprojects%2FYPBT-app%2Fsoumyaray%22%7D%5D%7D&QueueUrl=https%3A%2F%2Fsqs.us-east-1.amazonaws.com%2F503315808870%2Fcodepraise-clone-test&Version=2012-11-05
+    headers:
+      Content-Type:
+      - application/x-www-form-urlencoded; charset=utf-8
+      Accept-Encoding:
+      - ''
+      User-Agent:
+      - aws-sdk-ruby3/3.43.0 ruby/2.5.3 x86_64-darwin18 aws-sdk-sqs/1.10.0
+      Host:
+      - sqs.us-east-1.amazonaws.com
+      X-Amz-Date:
+      - 20181206T004503Z
+      X-Amz-Content-Sha256:
+      - c01ca91e95cb07f194180ced1b03f4f5372749d7ac3adbdae42c83ad509dc6a1
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=AKIAJNS3PNUYMXDVJEWA/20181206/us-east-1/sqs/aws4_request,
+        SignedHeaders=content-type;host;x-amz-content-sha256;x-amz-date, Signature=4c8e9ed089ea6b1613cf296f941159e78f2329ae37104b0207ac1ff24df742ae
+      Content-Length:
+      - '878'
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amzn-Requestid:
+      - 131e0bbb-c956-55a4-8632-5f39ba06c3e8
+      Date:
+      - Thu, 06 Dec 2018 00:45:04 GMT
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '378'
+    body:
+      encoding: UTF-8
+      string: <?xml version="1.0"?><SendMessageResponse xmlns="http://queue.amazonaws.com/doc/2012-11-05/"><SendMessageResult><MessageId>e64ecf94-ffb5-4163-ae88-0e2ec32354b6</MessageId><MD5OfMessageBody>b68b9388e8767d17fd3dcd5d96b1b55c</MD5OfMessageBody></SendMessageResult><ResponseMetadata><RequestId>131e0bbb-c956-55a4-8632-5f39ba06c3e8</RequestId></ResponseMetadata></SendMessageResponse>
+    http_version: 
+  recorded_at: Thu, 06 Dec 2018 00:45:04 GMT
 recorded_with: VCR 4.0.0

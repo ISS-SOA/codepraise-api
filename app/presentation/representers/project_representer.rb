@@ -16,8 +16,10 @@ module CodePraise
 
       property :origin_id
       property :name
-      property :ssh_url
       property :fullname
+      property :http_url
+      property :ssh_url
+      property :size
       property :owner, extend: Representer::Member, class: OpenStruct
       collection :contributors, extend: Representer::Member, class: OpenStruct
 

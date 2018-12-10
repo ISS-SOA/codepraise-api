@@ -18,6 +18,7 @@ describe 'Test API routes' do
   before do
     VcrHelper.configure_vcr_for_github
     DatabaseHelper.wipe_database
+    CodePraise::Repository::RepoStore.wipe
   end
 
   after do
@@ -42,6 +43,11 @@ describe 'Test API routes' do
       )
 
       get "/api/v1/projects/#{USERNAME}/#{PROJECT_NAME}"
+      _(last_response.status).must_equal 202
+
+      5.times { sleep(1); print '.' }
+
+      get "/api/v1/projects/#{USERNAME}/#{PROJECT_NAME}"
       _(last_response.status).must_equal 200
       appraisal = JSON.parse last_response.body
       _(appraisal.keys.sort).must_equal %w[folder project]
@@ -60,6 +66,11 @@ describe 'Test API routes' do
       )
 
       get "/api/v1/projects/#{USERNAME}/#{PROJECT_NAME}/spec"
+      _(last_response.status).must_equal 202
+
+      5.times { sleep(1); print '.' }
+
+      get "/api/v1/projects/#{USERNAME}/#{PROJECT_NAME}/spec"
       _(last_response.status).must_equal 200
       appraisal = JSON.parse last_response.body
       _(appraisal.keys.sort).must_equal %w[folder project]
@@ -76,6 +87,11 @@ describe 'Test API routes' do
       CodePraise::Service::AddProject.new.call(
         owner_name: USERNAME, project_name: PROJECT_NAME
       )
+
+      get "/api/v1/projects/#{USERNAME}/#{PROJECT_NAME}/foobar"
+      _(last_response.status).must_equal 202
+
+      5.times { sleep(1); print '.' }
 
       get "/api/v1/projects/#{USERNAME}/#{PROJECT_NAME}/foobar"
       _(last_response.status).must_equal 404

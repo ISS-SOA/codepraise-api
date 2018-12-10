@@ -29,6 +29,8 @@ describe 'AppraiseProject Service Integration Test' do
         .new(GITHUB_TOKEN)
         .find(USERNAME, PROJECT_NAME)
       CodePraise::Repository::For.entity(gh_project).create(gh_project)
+      gitrepo = CodePraise::GitRepo.new(gh_project)
+      gitrepo.clone! unless gitrepo.exists_locally?
 
       # WHEN: we request to appraise the project
       request = OpenStruct.new(
