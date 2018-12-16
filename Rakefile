@@ -15,7 +15,6 @@ end
 desc 'Run acceptance tests'
 # NOTE: run `rake run:test` in another process
 Rake::TestTask.new(:spec_accept) do |t|
-  puts 'Make sure worker is running in separate process'
   t.pattern = 'spec/tests_acceptance/*_acceptance.rb'
   t.warning = false
 end
@@ -27,16 +26,16 @@ end
 
 desc 'Keep restarting web app upon changes'
 task :rerack do
-  sh "rerun -c rackup --ignore 'coverage/*'"
+  sh "rerun -c 'puma config.ru -p 9090' --ignore 'coverage/*'"
 end
 
 namespace :run do
-  task :dev do
-    sh 'rerun -c "rackup -p 9090"'
+  task :development do
+    sh 'puma config.ru -p 9090'
   end
 
   task :test do
-    sh 'RACK_ENV=test rackup -p 9090'
+    sh 'RACK_ENV=test puma config.ru -p 9090'
   end
 end
 

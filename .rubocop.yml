@@ -37,3 +37,7 @@ Style/SymbolArray:
 Layout/MultilineMethodCallIndentation:
   Enabled: true
   EnforcedStyle: indented
+
+Layout/AlignHash:
+  Enabled: true
+  EnforcedHashRocketStyle: table

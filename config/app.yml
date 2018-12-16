@@ -1,6 +1,6 @@
 ---
 development:
-  API_HOST: http://localhost:9000
+  API_HOST: http://localhost:9090
   # Infrastructure
   DB_FILENAME:    app/infrastructure/database/local/dev.db
   REPOSTORE_PATH: app/infrastructure/git/repostore

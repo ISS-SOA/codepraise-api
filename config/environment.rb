@@ -14,8 +14,6 @@ module CodePraise
     Econfig.env = environment.to_s
     Econfig.root = '.'
 
-    use Rack::Session::Cookie, secret: config.SESSION_SECRET
-
     configure :development, :test do
       require 'pry'
 
@@ -38,6 +36,8 @@ module CodePraise
 
     configure :production do
       # Use deployment platform's DATABASE_URL environment variable
+
+      puts 'RUNNING IN PRODUCTION MODE'
 
       use Rack::Cache,
           verbose: true,

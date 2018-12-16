@@ -19,8 +19,8 @@ describe 'Test Git Commands Mapper and Gateway' do
     project = CodePraise::Repository::For.entity(gh_project)
       .create(gh_project)
 
-    @gitrepo = CodePraise::GitRepo.new(project)
-    @gitrepo.clone! unless @gitrepo.exists_locally?
+    @gitrepo = CodePraise::GitRepo.new(project, CodePraise::Api.config)
+    @gitrepo.clone_locally unless @gitrepo.exists_locally?
   end
 
   after do
