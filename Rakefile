@@ -30,10 +30,12 @@ task :rerack do
 end
 
 namespace :run do
+  desc 'Run API server in development mode'
   task :development do
     sh 'puma config.ru -p 9090'
   end
 
+  desc 'Run API server in test mode'
   task :test do
     sh 'RACK_ENV=test puma config.ru -p 9090'
   end

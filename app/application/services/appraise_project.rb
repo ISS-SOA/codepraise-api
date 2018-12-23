@@ -20,7 +20,6 @@ module CodePraise
       SIZE_ERR = 'Project too large to analyze'
       CLONE_ERR = 'Could not clone this project'
       NO_FOLDER_ERR = 'Could not find that folder'
-      # PROCESSING_MSG = 'Processing the appraisal request'
 
       # input hash keys required: :project, :requested, :config
       def find_project_details(input)
@@ -49,9 +48,7 @@ module CodePraise
       def request_cloning_worker(input)
         return Success(input) if input[:gitrepo].exists_locally?
 
-        Messaging::Queue.new(Api.config.CLONE_QUEUE_URL, Api.config)
-          .send(clone_request_json(input))
-
+        notify_workers(input)
         Failure(
           Value::Result.new(status: :processing,
                             message: { request_id: input[:request_id] })
@@ -79,6 +76,17 @@ module CodePraise
         Value::CloneRequest.new(input[:project], input[:request_id])
           .yield_self { |request| Representer::CloneRequest.new(request) }
           .yield_self(&:to_json)
+      end
+
+      def notify_workers(input)
+        queues = [Api.config.CLONE_QUEUE_URL, Api.config.REPORT_QUEUE_URL]
+
+        queues.each do |queue_url|
+          Concurrent::Promise.execute do
+            Messaging::Queue.new(queue_url, Api.config)
+              .send(clone_request_json(input))
+          end
+        end
       end
     end
   end
