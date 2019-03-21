@@ -40,6 +40,7 @@ gem 'sequel', '~> 5.13'
 group :development, :test do
   gem 'database_cleaner'
   gem 'sqlite3'
+  gem 'factory_bot', '~> 5.0', '>= 5.0.2'
 end
 
 group :production do
