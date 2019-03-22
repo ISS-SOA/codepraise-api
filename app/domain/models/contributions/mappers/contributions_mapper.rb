@@ -13,7 +13,8 @@ module CodePraise
 
         Mapper::FolderContributions.new(
           folder_name,
-          parse_file_reports(blame)
+          parse_file_reports(blame),
+          @gitrepo.local.git_repo_path
         ).build_entity
       end
 

@@ -12,7 +12,9 @@ require 'minitest/rg'
 
 require 'pry' # for debugging
 
+require 'factory_bot'
 require_relative '../../init.rb'
+require_relative '../factories/init'
 
 USERNAME = 'soumyaray'
 PROJECT_NAME = 'YPBT-app'

@@ -11,11 +11,13 @@ module CodePraise
       WANTED_EXTENSION = %w[rb js css html slim md].join('|')
       EXTENSION_REGEX = /#{DOT}#{WANTED_EXTENSION}#{LINE_END}/.freeze
 
-      attr_reader :file_path, :lines
+      attr_reader :file_path, :lines, :complexity, :idiomaticity
 
-      def initialize(file_path:, lines:)
+      def initialize(file_path:, lines:, complexity:, idiomaticity:)
         @file_path = Value::FilePath.new(file_path)
         @lines = lines
+        @complexity = complexity
+        @idiomaticity = idiomaticity
       end
 
       def total_credits

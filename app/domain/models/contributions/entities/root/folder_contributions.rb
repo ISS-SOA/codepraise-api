@@ -6,11 +6,12 @@ module CodePraise
     class FolderContributions < SimpleDelegator
       include Mixins::ContributionsCalculator
 
-      attr_reader :path, :files
+      attr_reader :path, :files, :repo_path
 
-      def initialize(path:, files:)
+      def initialize(path:, files:, repo_path:)
         @path = path
         @files = files
+        @repo_path = repo_path
         super(Types::HashedArrays.new)
 
         base_files.each { |file|   self[file.file_path.filename] = file }
@@ -45,7 +46,7 @@ module CodePraise
           end
 
         @subfolders = folders.map do |folder_name, folder_files|
-          FolderContributions.new(path: folder_name, files: folder_files)
+          FolderContributions.new(path: folder_name, files: folder_files, repo_path: @repo_path)
         end
       end
 

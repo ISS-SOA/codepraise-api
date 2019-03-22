@@ -4,14 +4,17 @@ module CodePraise
   module Mapper
     # Summarizes a single file's contributions by team members
     class FileContributions
-      def initialize(file_report)
+      def initialize(file_report, repo_path)
         @file_report = file_report
+        @repo_path = repo_path
       end
 
       def build_entity
         Entity::FileContributions.new(
           file_path: filename,
-          lines: contributions
+          lines: contributions,
+          complexity: complexity,
+          idiomaticity: idiomaticity
         )
       end
 
@@ -23,6 +26,16 @@ module CodePraise
 
       def contributions
         summarize_line_reports(@file_report[1])
+      end
+
+      def complexity
+        file_path = Value::FilePath.new(filename)
+        Entity::Complexity.new(file_path: "#{@repo_path}/#{file_path}")
+      end
+
+      def idiomaticity
+        file_path = Value::FilePath.new(filename)
+        Entity::Idiomaticity.new(file_path: "#{@repo_path}/#{file_path}")
       end
 
       def summarize_line_reports(line_reports)
