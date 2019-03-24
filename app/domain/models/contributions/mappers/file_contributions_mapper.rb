@@ -14,7 +14,8 @@ module CodePraise
           file_path: filename,
           lines: contributions,
           complexity: complexity,
-          idiomaticity: idiomaticity
+          idiomaticity: idiomaticity,
+          methods: methods
         )
       end
 
@@ -47,6 +48,17 @@ module CodePraise
             number: index_to_number(line_index)
           )
         end
+      end
+
+      def methods
+        return [] unless ruby_file?
+        MethodContributions.new(
+          file_code: contributions
+        ).build_entity
+      end
+
+      def ruby_file?
+        File.extname(@file_report[0]) == ".rb"
       end
 
       def contributor_from(report)

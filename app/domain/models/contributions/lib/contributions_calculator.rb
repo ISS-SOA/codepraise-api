@@ -23,6 +23,10 @@ module CodePraise
       def percent_credit_of(contributor)
         ((credits_for(contributor).to_f / line_count) * 100).round
       end
+
+      def total_methods
+        @methods.count
+      end
     end
   end
 end

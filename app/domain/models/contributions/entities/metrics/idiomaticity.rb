@@ -17,11 +17,13 @@ module CodePraise
         @result = team.inspect_file(process_source)
       end
 
-      def count
+      def error_count
+        return nil if @result.nil?
         @result.count
       end
 
-      def messages
+      def error_messages
+        return nil if @result.nil?
         @result.map(&:message)
       end
 

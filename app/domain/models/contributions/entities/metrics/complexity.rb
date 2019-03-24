@@ -14,13 +14,16 @@ module CodePraise
       end
 
       def average
+        return nil if @flog.nil?
         @flog.average
       end
 
-      def methods_score
-        methods_score = @flog.totals
-        methods_score.keys.inject({}) do |result, file_path|
-          result[method_name(file_path)] = @flog.totals[file_path]
+      def methods_complexity
+        return nil if @flog.nil?
+        @flog.totals.keys.inject([]) do |result, file_path|
+          result.push(
+            OpenStruct.new(name: method_name(file_path),  complexity: @flog.totals[file_path])
+          )
           result
         end
       end

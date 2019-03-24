@@ -37,6 +37,9 @@ gem 'aws-sdk-sqs', '~> 1'
 gem 'hirb', '~> 0.7'
 gem 'sequel', '~> 5.13'
 
+# Ruby AST parser
+gem 'unparser'
+
 group :development, :test do
   gem 'database_cleaner'
   gem 'sqlite3'

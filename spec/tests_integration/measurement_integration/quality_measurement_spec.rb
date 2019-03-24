@@ -12,7 +12,7 @@ describe "Test Quality Measurement" do
   describe "Entity::Complexity" do
     it "should return complexity score" do
       _(@file.complexity.average).wont_be_nil
-      _(@file.complexity.methods_score.keys).wont_be_empty
+      _(@file.complexity.methods_complexity.keys).wont_be_empty
     end
   end
 
