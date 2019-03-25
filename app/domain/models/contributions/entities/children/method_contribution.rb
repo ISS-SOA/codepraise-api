@@ -15,10 +15,13 @@ module CodePraise
       attribute :lines, Array.of(LineContribution)
 
       def credit_share
-        @credit_share ||= lines
-          .each_with_object(Value::CreditShare.new) do |line, credit|
-            credit.add_credit(line)
-          end
+        @credit_share ||= lines.each_with_object(Value::CreditShare.new) do |line, credit|
+          credit.add_credit(line)
+        end
+      end
+
+      def share
+        credit_share.share
       end
 
       def contributors

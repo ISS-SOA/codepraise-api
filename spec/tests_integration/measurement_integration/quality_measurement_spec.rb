@@ -5,8 +5,10 @@ describe "Test Quality Measurement" do
   before do
     project = create(:project)
     git_repo = CodePraise::GitRepo.new(project, CodePraise::Api.config)
-    folder = CodePraise::Mapper::Contributions.new(git_repo).for_folder('app')
+    contributions = CodePraise::Mapper::Contributions.new(git_repo)
+    folder = contributions.for_folder('app')
     @file = folder.files[0]
+    binding.pry
   end
 
   describe "Entity::Complexity" do
@@ -18,9 +20,14 @@ describe "Test Quality Measurement" do
 
   describe "Entity::Idiomaticity" do
     it "should count number of unidiomatic code" do
-      _(@file.idiomaticity.count).wont_be_nil
-      _(@file.idiomaticity.messages).wont_be_empty
-      binding.pry
+      _(@file.idiomaticity.error_count).wont_be_nil
+      _(@file.idiomaticity.error_messages).wont_be_empty
+    end
+  end
+
+  describe "Annotation" do
+    it "should return number of annotation" do
+      _(@file.total_annotations).wont_be_nil
     end
   end
 end

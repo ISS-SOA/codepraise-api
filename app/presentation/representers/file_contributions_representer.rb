@@ -20,6 +20,7 @@ module CodePraise
       property :line_count
       property :total_credits
       property :total_methods
+      property :total_annotations
       collection :methods, extend: Representer::MethodContributions, class: OpenStruct
       property :file_path, extend: Representer::FilePath, class: OpenStruct
       property :credit_share, extend: Representer::CreditShare, class: OpenStruct

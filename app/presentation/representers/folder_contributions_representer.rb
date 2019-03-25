@@ -7,6 +7,7 @@ require_relative 'contributor_representer'
 require_relative 'credit_share_representer'
 require_relative 'file_contributions_representer'
 require_relative 'line_contribution_representer'
+require_relative 'collective_ownership_representer'
 
 module CodePraise
   module Representer
@@ -19,6 +20,7 @@ module CodePraise
       property :total_credits
       property :any_subfolders?
       property :any_base_files?
+      collection :collective_ownership, extend: Representer::CollectiveOwnership, class: OpenStruct
       property :credit_share, extend: Representer::CreditShare, class: OpenStruct
       collection :base_files, extend: Representer::FileContributions, class: OpenStruct
       collection :subfolders, extend: Representer::FolderContributions, class: OpenStruct

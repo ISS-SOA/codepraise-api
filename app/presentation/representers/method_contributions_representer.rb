@@ -13,7 +13,7 @@ module CodePraise
       include Roar::JSON
 
       property :name
-      property :credit_share, extend: Representer::CreditShare, class: OpenStruct
+      property :share
     end
   end
 end

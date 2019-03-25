@@ -1,14 +1,16 @@
 require 'roar/decorator'
 require 'roar/json'
 
+
 module CodePraise
   module Representer
     # Represents folder summary about repo's folder
-    class MethodComplexityRepresenter < Roar::Decorator
+    class CollectiveOwnership < Roar::Decorator
       include Roar::JSON
 
-      property :name
-      property :complexity
+      property :contributor
+      collection :contributions
+      property :coefficient_variation
     end
   end
 end

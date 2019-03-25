@@ -1,6 +1,5 @@
 require 'roar/decorator'
 require 'roar/json'
-require_relative 'method_complexity_representer'
 
 module CodePraise
   module Representer
@@ -9,7 +8,7 @@ module CodePraise
       include Roar::JSON
 
       property :average
-      collection :methods_complexity, extend: Representer::MethodComplexityRepresenter, class: OpenStruct
+      property :methods_complexity
     end
   end
 end

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require_relative '../../lib/measurement/collective_ownership'
 
 module CodePraise
   module Entity
@@ -16,6 +17,17 @@ module CodePraise
 
         base_files.each { |file|   self[file.file_path.filename] = file }
         subfolders.each { |folder| self[folder.path] = folder }
+      end
+
+      def collective_ownership
+        return nil unless any_subfolders? || credit_share == 0
+        Measurement::CollectiveOwnership.calculate(subfolders, contributors).map do |co|
+          Entity::CollectiveOwnership.new(
+            contributor: co[:contributor],
+            contributions: co[:contributions],
+            coefficient_variation: co[:coefficient_variation]
+          )
+        end
       end
 
       def line_count
@@ -78,17 +90,6 @@ module CodePraise
       end
 
       private
-
-      def variance(x)
-        m = mean(x)
-        sum = 0.0
-        x.each {|v| sum += (v-m)**2 }
-        (sum/x.size).round(3)
-      end
-
-      def mean(x)
-        x.reduce(:+).to_f / x.count
-      end
 
       def comparitive_path
         path.empty? ? path : path + '/'

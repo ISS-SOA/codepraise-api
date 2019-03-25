@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+require_relative '../lib/measurement/complexity'
+require_relative '../lib/measurement/idiomaticity'
+require_relative '../lib/measurement/number_of_annotation'
+
 module CodePraise
   module Mapper
     # Summarizes a single file's contributions by team members
@@ -15,7 +19,8 @@ module CodePraise
           lines: contributions,
           complexity: complexity,
           idiomaticity: idiomaticity,
-          methods: methods
+          methods: methods,
+          total_annotations: total_annotations
         )
       end
 
@@ -31,12 +36,24 @@ module CodePraise
 
       def complexity
         file_path = Value::FilePath.new(filename)
-        Entity::Complexity.new(file_path: "#{@repo_path}/#{file_path}")
+        complexity_hash = Measurement::Complexity.calculate("#{@repo_path}/#{file_path}")
+        Entity::Complexity.new(
+          average: complexity_hash[:average],
+          methods_complexity: complexity_hash[:methods_complexity]
+        )
       end
 
       def idiomaticity
         file_path = Value::FilePath.new(filename)
-        Entity::Idiomaticity.new(file_path: "#{@repo_path}/#{file_path}")
+        idiomaticity_hash = Measurement::Idiomaticity.calculate("#{@repo_path}/#{file_path}")
+        Entity::Idiomaticity.new(
+          error_count: idiomaticity_hash[:error_count],
+          error_messages: idiomaticity_hash[:error_messages]
+        )
+      end
+
+      def total_annotations
+        Measurement::NumberOfAnnotation.calculate(contributions.map(&:code))
       end
 
       def summarize_line_reports(line_reports)
@@ -52,9 +69,7 @@ module CodePraise
 
       def methods
         return [] unless ruby_file?
-        MethodContributions.new(
-          file_code: contributions
-        ).build_entity
+        MethodContributions.new(contributions).build_entity
       end
 
       def ruby_file?
