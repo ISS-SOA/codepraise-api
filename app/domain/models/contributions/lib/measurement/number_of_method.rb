@@ -44,12 +44,12 @@ module CodePraise
           first_number +=1
           result.push(loc)
           break if loc.nil?
-          end_number += 1 if new_line?(loc) || comment?(loc)
+          end_number += 1 if blank_line?(loc) || comment?(loc)
         end
         result
       end
 
-      def self.new_line?(loc)
+      def self.blank_line?(loc)
         loc.code.strip.empty?
       end
 
