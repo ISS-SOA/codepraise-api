@@ -10,40 +10,40 @@ module CodePraise
 
     module NumberOfMethod
 
-      def self.calculate(contributions)
-        ast = Parser::CurrentRuby.parse(code(contributions))
-        all_methods(ast, contributions)
+      def self.calculate(line_entities)
+        ast = Parser::CurrentRuby.parse(line_of_code(line_entities))
+        all_methods_hash(ast, line_entities)
       end
 
       private
 
-      def self.code(contributions)
-        contributions.map(&:code).join("\n")
+      def self.line_of_code(line_entities)
+        line_entities.map(&:code).join("\n")
       end
 
 
-      def self.all_methods(ast, contributions)
-        methods = []
-        find_methods(ast, methods)
-        return [] if methods.empty?
-        methods.inject([]) do |result, method_ast|
+      def self.all_methods_hash(ast, line_entities)
+        methods_ast = []
+        find_methods_tree(ast, methods_ast)
+        return [] if methods_ast.empty?
+        methods_ast.inject([]) do |result, method_ast|
           result.push({
             name: method_name(method_ast),
-            lines: line_contribution(method_ast, contributions)
+            lines: select_entity(method_ast, line_entities)
           })
         end
       end
 
-      def self.line_contribution(method_ast, contributions)
-        method_code_array = Unparser.unparse(method_ast).split("\n")
-        first_number = contributions.select {|loc| loc.code.strip == method_code_array[0].strip}[0].number
-        end_number = first_number + method_code_array.count - 1
+      def self.select_entity(method_ast, line_entities)
+        method_loc = Unparser.unparse(method_ast).split("\n")
+        first_number = line_entities.select {|loc| loc.code.strip == method_loc[0].strip}[0].number
+        end_number = first_number + method_loc.count - 1
         result = []
         while first_number <= end_number
-          loc = contributions.select {|loc| loc.number == first_number}[0]
+          loc = line_entities.select {|loc| loc.number == first_number}[0]
+          break if loc.nil?
           first_number +=1
           result.push(loc)
-          break if loc.nil?
           end_number += 1 if blank_line?(loc) || comment?(loc)
         end
         result
@@ -61,13 +61,13 @@ module CodePraise
         method_ast.children[0]
       end
 
-      def self.find_methods(ast, methods)
+      def self.find_methods_tree(ast, methods_ast)
         return nil unless Parser::AST::Node === ast
         if ast.type == :def
-          methods.append(ast)
+          methods_ast.append(ast)
         else
           ast.children.each do |ast|
-            find_methods(ast, methods)
+            find_methods_tree(ast, methods_ast)
           end
         end
       end

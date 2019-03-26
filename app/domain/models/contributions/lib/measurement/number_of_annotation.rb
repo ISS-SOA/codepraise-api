@@ -15,15 +15,19 @@ module CodePraise
           if is_comment?(loc)
             comment_index = i
           else
-            annotation += 1 if (comment_index - not_comment_index) >= LINE_LIMITATION
+            annotation += 1 if multiline_comment?(comment_index, not_comment_index)
             not_comment_index = i
           end
         end
-        annotation += 1 if (comment_index - not_comment_index) >= LINE_LIMITATION
+        annotation += 1 if multiline_comment?(comment_index, not_comment_index)
         annotation
       end
 
       private
+
+      def self.multiline_comment?(comment_index, not_comment_index)
+        (comment_index - not_comment_index) >= LINE_LIMITATION
+      end
 
       def self.is_comment?(loc)
         loc.strip[0] == COMMENT

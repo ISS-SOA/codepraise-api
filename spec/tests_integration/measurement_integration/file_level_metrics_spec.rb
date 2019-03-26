@@ -6,9 +6,9 @@ describe "Test Quality Measurement" do
     project = create(:project)
     git_repo = CodePraise::GitRepo.new(project, CodePraise::Api.config)
     contributions = CodePraise::Mapper::Contributions.new(git_repo)
-    folder = contributions.for_folder('app')
-    @file = folder.files[0]
-    binding.pry
+    @folder = contributions.for_folder('app')
+    @file = @folder.files[0]
+    # binding.pry
   end
 
   describe "Entity::Complexity" do
@@ -30,4 +30,20 @@ describe "Test Quality Measurement" do
       _(@file.total_annotations).wont_be_nil
     end
   end
+
+  describe "Entity::MethodContribution" do
+    it "should return number of method" do
+      methods = @file.methods
+      _(methods.count).wont_be_nil
+      _(methods[0].lines).wont_be_nil
+    end
+  end
+
+  describe "Entity::CollectiveOwnership" do
+    it "should return personal code ownership" do
+      co_array = @folder.collective_ownership
+      _(co_array[0].coefficient_variation).wont_be_nil
+    end
+  end
+
 end

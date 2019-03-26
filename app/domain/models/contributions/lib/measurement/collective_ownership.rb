@@ -6,14 +6,14 @@ module CodePraise
 
     module CollectiveOwnership
 
-      def self.calculate(sub_folders, contributors)
-        subfolders_percentage_hash = subfolders_percentage(sub_folders, contributors)
-        subfolders_percentage_hash.keys.inject([]) do |result, key|
+      def self.calculate(sub_folders, contributor_entities)
+        subfolders_percentage_hash = subfolders_percentage(sub_folders, contributor_entities)
+        subfolders_percentage_hash.keys.inject([]) do |result, name|
           result.push(
             {
-              contributor: key,
-              contributions: subfolders_percentage_hash[key],
-              coefficient_variation: Math.coefficient_variation(percentage_nums(subfolders_percentage_hash[key]))
+              contributor: name,
+              contributions: subfolders_percentage_hash[name],
+              coefficient_variation: Math.coefficient_variation(percentage_nums(subfolders_percentage_hash[name]))
             }
           )
         end
@@ -21,16 +21,20 @@ module CodePraise
 
       private
 
-      def self.subfolders_percentage(sub_folders, contributors)
-        result = contributors.inject({}) {|hash, contributor| hash[contributor.username] = []; hash}
+      def self.subfolders_percentage(sub_folders, contributor_entities)
+        contributors = contributor_empty_hash(contributor_entities)
         sub_folders.each do |subfolder|
-          result.each do |k, v|
+          contributors.each do |name, v|
             share_percentage = subfolder.credit_share.share_percentage
             break if share_percentage.nil?
-            result[k].push({percentage: (share_percentage[k].nil? ? 0 : share_percentage[k]), folder: subfolder.path})
+            contributors[name].push({percentage: (share_percentage[name].nil? ? 0 : share_percentage[name]), folder: subfolder.path})
           end
         end
-        result
+        contributors
+      end
+
+      def self.contributor_empty_hash(contributor_entities)
+        contributor_entities.inject({}) {|hash, contributor| hash[contributor.username] = []; hash}
       end
 
       def self.percentage_nums(percentage_array)

@@ -142,6 +142,7 @@ GEM
       multi_json (~> 1.0)
       net-http-persistent (>= 2.7)
       net-http-pipeline
+    git (1.5.0)
     hashdiff (0.3.7)
     highline (1.7.10)
     hirb (0.7.3)
@@ -314,6 +315,7 @@ DEPENDENCIES
   factory_bot (~> 5.0, >= 5.0.2)
   faye (~> 1)
   flog
+  git (~> 1.5)
   hirb (~> 0.7)
   http (~> 3.0)
   minitest (~> 5.11)

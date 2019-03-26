@@ -12,24 +12,29 @@ module CodePraise
           methods_complexity: nil
         }
         if ruby_file?(file_path)
-          flog = Flog.new
-          flog.flog(*file_path)
-          result[:average] = flog.average
-          result[:methods_complexity] = methods_complexity(flog.totals)
+          flog_result = flog_process(file_path)
+          result[:average] = flog_result.average
+          result[:methods_complexity] = methods_complexity(flog_result.totals)
         end
         result
       end
 
       private
 
+      def self.flog_process(file_path)
+        flog = Flog.new
+        flog.flog(*file_path)
+        flog
+      end
+
       def self.methods_complexity(flog_totals)
         flog_totals.keys.inject({}) do |result, key|
-          result[method_name(key)] = flog_totals[key]
+          result[only_method_name(key)] = flog_totals[key]
           result
         end
       end
 
-      def self.method_name(file_path)
+      def self.only_method_name(file_path)
         file_path.split("#").last
       end
 
