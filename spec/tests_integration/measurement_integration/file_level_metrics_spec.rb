@@ -1,6 +1,6 @@
 require_relative '../../helpers/spec_helper.rb'
 
-describe "Test Quality Measurement" do
+describe "Test File-Level Measurement" do
 
   before do
     project = create(:project)
@@ -8,7 +8,7 @@ describe "Test Quality Measurement" do
     contributions = CodePraise::Mapper::Contributions.new(git_repo)
     @folder = contributions.for_folder('app')
     @file = @folder.files[0]
-    # binding.pry
+    binding.pry
   end
 
   describe "Entity::Complexity" do

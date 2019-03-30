@@ -59,10 +59,11 @@ module CodePraise
       end
 
       def appraise_contributions(input)
-        input[:folder] = Mapper::Contributions
-          .new(input[:gitrepo]).for_folder(input[:requested].folder_name)
+        contributions = Mapper::Contributions.new(input[:gitrepo])
+        input[:folder] = contributions.for_folder(input[:requested].folder_name)
+        input[:commits] = contributions.commits
 
-        Value::ProjectFolderContributions.new(input[:project], input[:folder])
+        Value::ProjectFolderContributions.new(input[:project], input[:folder], input[:commits])
           .yield_self do |appraisal|
             Success(Value::Result.new(status: :ok, message: appraisal))
           end

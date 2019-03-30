@@ -18,6 +18,16 @@ module CodePraise
         ).build_entity
       end
 
+      def commits(since=nil)
+        commit_report = GitCommit::CommitReporter.new(@gitrepo)
+        commits = commit_report.commits(since)
+        empty_commit = commit_report.empty_commit
+
+        commits.map do |commit|
+          Mapper::Commit.new(commit, empty_commit).build_entity
+        end
+      end
+
       def parse_file_reports(blame_output)
         blame_output.map do |file_blame|
           name  = file_blame[0]
