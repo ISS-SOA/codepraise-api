@@ -20,15 +20,11 @@ module CodePraise
       end
 
       def collective_ownership
-        return nil unless any_subfolders? || credit_share == 0
-        Measurement::CollectiveOwnership.calculate(subfolders, contributors).map do |co|
-          Entity::CollectiveOwnership.new(
-            contributor: co[:contributor],
-            contributions: co[:contributions],
-            coefficient_variation: co[:coefficient_variation]
-          )
-        end
+        return nil unless any_subfolders?
+        Measurement::CollectiveOwnership.calculate(self)
       end
+
+
 
       def line_count
         files.map(&:line_count).reduce(&:+)

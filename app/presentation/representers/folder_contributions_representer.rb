@@ -20,7 +20,7 @@ module CodePraise
       property :total_credits
       property :any_subfolders?
       property :any_base_files?
-      collection :collective_ownership, extend: Representer::CollectiveOwnership, class: OpenStruct
+      property :collective_ownership
       property :credit_share, extend: Representer::CreditShare, class: OpenStruct
       collection :base_files, extend: Representer::FileContributions, class: OpenStruct
       collection :subfolders, extend: Representer::FolderContributions, class: OpenStruct

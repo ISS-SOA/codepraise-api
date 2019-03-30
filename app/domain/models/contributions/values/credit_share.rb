@@ -32,9 +32,12 @@ module CodePraise
 
       def share_percentage
         sum = share.values.reduce(&:+)
-        return nil if sum.nil? || sum == 0
         share.keys.inject({}) do |result, key|
-          result[key] =  ((share[key].to_f / sum) * 100).round
+          if sum == 0
+            result[key] = 0
+          else
+            result[key] = ((share[key].to_f / sum) * 100).round
+          end
           result
         end
       end

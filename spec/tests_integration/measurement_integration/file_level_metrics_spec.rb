@@ -41,8 +41,7 @@ describe "Test Quality Measurement" do
 
   describe "Entity::CollectiveOwnership" do
     it "should return personal code ownership" do
-      co_array = @folder.collective_ownership
-      _(co_array[0].coefficient_variation).wont_be_nil
+      _(@folder.collective_ownership.keys).wont_be_empty
     end
   end
 

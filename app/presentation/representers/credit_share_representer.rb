@@ -12,6 +12,7 @@ module CodePraise
       include Roar::JSON
 
       property :share
+      property :share_percentage
       collection :contributors, extend: Representer::Contributor,
                                 class: OpenStruct
     end

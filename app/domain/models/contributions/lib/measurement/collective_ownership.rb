@@ -6,39 +6,27 @@ module CodePraise
 
     module CollectiveOwnership
 
-      def self.calculate(sub_folders, contributor_entities)
-        subfolders_percentage_hash = subfolders_percentage(sub_folders, contributor_entities)
-        subfolders_percentage_hash.keys.inject([]) do |result, name|
-          result.push(
-            {
-              contributor: name,
-              contributions: subfolders_percentage_hash[name],
-              coefficient_variation: Math.coefficient_variation(percentage_nums(subfolders_percentage_hash[name]))
-            }
-          )
+      def self.calculate(folder)
+        contributors = folder.contributors
+        contributors_percentage_hash = contributros_subfolders_percentage(folder.subfolders, contributors)
+        contributors_percentage_hash.each do |k, v|
+          contributors_percentage_hash[k] = Math.coefficient_variation(v)
         end
+        contributors_percentage_hash
       end
 
       private
-
-      def self.subfolders_percentage(sub_folders, contributor_entities)
-        contributors = contributor_empty_hash(contributor_entities)
-        sub_folders.each do |subfolder|
-          contributors.each do |name, v|
-            share_percentage = subfolder.credit_share.share_percentage
-            break if share_percentage.nil?
-            contributors[name].push({percentage: (share_percentage[name].nil? ? 0 : share_percentage[name]), folder: subfolder.path})
+      def self.contributros_subfolders_percentage(subfolders, contributors)
+        percentage_array = subfolders.map do |subfolder|
+          subfolder.credit_share.share_percentage
+        end
+        contributors_hash = contributors.inject({}) {|hash, contributor| hash[contributor.username] = []; hash}
+        percentage_array.each do |subfolder_percentage|
+          contributors_hash.keys.each do |k|
+            contributors_hash[k].push(subfolder_percentage[k].nil? ? 0 : subfolder_percentage[k])
           end
         end
-        contributors
-      end
-
-      def self.contributor_empty_hash(contributor_entities)
-        contributor_entities.inject({}) {|hash, contributor| hash[contributor.username] = []; hash}
-      end
-
-      def self.percentage_nums(percentage_array)
-        percentage_array.map{|percentage_hash| percentage_hash[:percentage]}
+        contributors_hash
       end
     end
   end
