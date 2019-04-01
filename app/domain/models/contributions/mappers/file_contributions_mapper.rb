@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
-require_relative '../lib/measurement/complexity'
+require_relative 'complexity_mapper'
 require_relative '../lib/measurement/idiomaticity'
-require_relative '../lib/measurement/number_of_annotation'
 
 module CodePraise
   module Mapper
@@ -19,8 +18,7 @@ module CodePraise
           lines: contributions,
           complexity: complexity,
           idiomaticity: idiomaticity,
-          methods: methods,
-          total_annotations: total_annotations
+          methods: methods
         )
       end
 
@@ -35,12 +33,7 @@ module CodePraise
       end
 
       def complexity
-        file_path = Value::FilePath.new(filename)
-        complexity_hash = Measurement::Complexity.calculate("#{@repo_path}/#{file_path}")
-        Entity::Complexity.new(
-          average: complexity_hash[:average],
-          methods_complexity: complexity_hash[:methods_complexity]
-        )
+        Mapper::Complexity.new("#{@repo_path}/#{filename}").build_entity
       end
 
       def idiomaticity
@@ -50,10 +43,6 @@ module CodePraise
           error_count: idiomaticity_hash[:error_count],
           error_messages: idiomaticity_hash[:error_messages]
         )
-      end
-
-      def total_annotations
-        Measurement::NumberOfAnnotation.calculate(contributions.map(&:code))
       end
 
       def summarize_line_reports(line_reports)
@@ -69,11 +58,12 @@ module CodePraise
 
       def methods
         return [] unless ruby_file?
+
         MethodContributions.new(contributions).build_entity
       end
 
       def ruby_file?
-        File.extname(@file_report[0]) == ".rb"
+        File.extname(@file_report[0]) == '.rb'
       end
 
       def contributor_from(report)

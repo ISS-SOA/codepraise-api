@@ -3,34 +3,25 @@
 require 'parser/current'
 require 'unparser'
 
-
 module CodePraise
-
-  module Measurement
-
-    module NumberOfMethod
-
-      def self.calculate(line_entities)
+  module Mapper
+    # Find all method in a file
+    module MethodParser
+      def self.parse_methods(line_entities)
         ast = Parser::CurrentRuby.parse(line_of_code(line_entities))
         all_methods_hash(ast, line_entities)
       end
-
-      private
 
       def self.line_of_code(line_entities)
         line_entities.map(&:code).join("\n")
       end
 
-
       def self.all_methods_hash(ast, line_entities)
         methods_ast = []
         find_methods_tree(ast, methods_ast)
-        return [] if methods_ast.empty?
         methods_ast.inject([]) do |result, method_ast|
-          result.push({
-            name: method_name(method_ast),
-            lines: select_entity(method_ast, line_entities)
-          })
+          result.push(name: method_name(method_ast),
+                      lines: select_entity(method_ast, line_entities))
         end
       end
 
@@ -40,14 +31,17 @@ module CodePraise
         end_number = first_number + method_loc.count - 1
         result = []
         while first_number <= end_number
-          loc = line_entities.select {|loc| loc.number == first_number}[0]
-          break if loc.nil?
-          first_number +=1
+          loc = line_entities.select do |line_entity|
+            line_entity.number == first_number
+          end.first
+          first_number += 1
           result.push(loc)
           end_number += 1 if blank_line?(loc) || comment?(loc)
         end
         result
       end
+
+      private
 
       def self.blank_line?(loc)
         loc.code.strip.empty?
@@ -62,16 +56,19 @@ module CodePraise
       end
 
       def self.find_methods_tree(ast, methods_ast)
-        return nil unless Parser::AST::Node === ast
+        return nil unless ast.is_a?(Parser::AST::Node)
+
         if ast.type == :def
           methods_ast.append(ast)
         else
-          ast.children.each do |ast|
-            find_methods_tree(ast, methods_ast)
+          ast.children.each do |child_ast|
+            find_methods_tree(child_ast, methods_ast)
           end
         end
       end
 
+      private_class_method :find_methods_tree, :comment?, :blank_line?,
+                           :method_name
     end
   end
 end

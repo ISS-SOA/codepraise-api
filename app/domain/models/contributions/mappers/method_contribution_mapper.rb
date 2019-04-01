@@ -1,9 +1,7 @@
-require_relative '../lib/measurement/number_of_method'
+# frozen_string_literal: true
 
 module CodePraise
-
   module Mapper
-
     class MethodContributions
       def initialize(file_contributions)
         @file_contributions = file_contributions
@@ -21,7 +19,7 @@ module CodePraise
       private
 
       def all_methods
-        Measurement::NumberOfMethod.calculate(@file_contributions)
+        MethodParser.parse_methods(@file_contributions)
       end
     end
   end

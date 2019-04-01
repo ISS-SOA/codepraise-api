@@ -1,11 +1,12 @@
 # frozen_string_literal: true
-require_relative '../../lib/measurement/collective_ownership'
+
 
 module CodePraise
   module Entity
     # Entity for folder contributions
     class FolderContributions < SimpleDelegator
       include Mixins::ContributionsCalculator
+      include Mixins::CodeOnwershipCalculator
 
       attr_reader :path, :files, :repo_path
 
@@ -18,13 +19,6 @@ module CodePraise
         base_files.each { |file|   self[file.file_path.filename] = file }
         subfolders.each { |folder| self[folder.path] = folder }
       end
-
-      def collective_ownership
-        return nil unless any_subfolders?
-        Measurement::CollectiveOwnership.calculate(self)
-      end
-
-
 
       def line_count
         files.map(&:line_count).reduce(&:+)

@@ -8,7 +8,7 @@ module CodePraise
       include Roar::JSON
 
       property :average
-      property :methods_complexity
+      property :methods
     end
   end
 end

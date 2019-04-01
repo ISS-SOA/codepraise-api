@@ -5,21 +5,21 @@ module CodePraise
     # Entity for file contributions
     class FileContributions
       include Mixins::ContributionsCalculator
+      include Mixins::CommentCalculator
 
       DOT = '\.'
       LINE_END = '$'
       WANTED_EXTENSION = %w[rb js css html slim md].join('|')
       EXTENSION_REGEX = /#{DOT}#{WANTED_EXTENSION}#{LINE_END}/.freeze
 
-      attr_reader :file_path, :lines, :complexity, :idiomaticity, :methods, :total_annotations
+      attr_reader :file_path, :lines, :complexity, :idiomaticity, :methods
 
-      def initialize(file_path:, lines:, complexity:, idiomaticity:, methods:, total_annotations:)
+      def initialize(file_path:, lines:, complexity:, idiomaticity:, methods:)
         @file_path = Value::FilePath.new(file_path)
         @lines = lines
         @complexity = complexity
         @idiomaticity = idiomaticity
         @methods = methods
-        @total_annotations = total_annotations
       end
 
       def total_credits
