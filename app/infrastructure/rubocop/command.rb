@@ -32,7 +32,7 @@ module CodePraise
         self
       end
 
-      def with_std_error
+      def with_stderr_output
         @redirects << '2>&1'
         self
       end

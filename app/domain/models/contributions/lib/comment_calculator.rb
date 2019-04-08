@@ -7,30 +7,36 @@ module CodePraise
       MULTILINE = 2
       COMMENT = '#'
 
-      def multiline_comments
+      def multiline_comment_count
+        count_comments(:multiline_comment?)
+      end
+
+      def singleline_comment_count
+        count_comments(:singleline_comment?)
+      end
+
+      private
+
+      def count_comments(condition)
         comment_index = not_comment_index = documentation = 0
         lines_of_code.each_with_index do |loc, i|
           if comment?(loc)
             comment_index = i
           else
-            documentation += 1 if multiline_comment?(comment_index, not_comment_index)
+            documentation += 1 if method(condition).call(comment_index, not_comment_index)
             not_comment_index = i
           end
         end
-        documentation += 1 if multiline_comment?(comment_index, not_comment_index)
+        documentation += 1 if method(condition).call(comment_index, not_comment_index)
         documentation
       end
 
-      def comments
-        lines_of_code.select do |loc|
-          comment?(loc)
-        end.count
-      end
-
-      private
-
       def lines_of_code
         lines.map(&:code)
+      end
+
+      def singleline_comment?(comment_index, not_comment_index)
+        (comment_index - not_comment_index) == 1
       end
 
       def multiline_comment?(comment_index, not_comment_index)

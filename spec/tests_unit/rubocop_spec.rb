@@ -13,7 +13,7 @@ describe 'Rubucop Module Unit Test' do
         .target('/')
         .except('Metrics')
         .format('json')
-        .with_std_error
+        .with_stderr_output
         .full_command
 
       _(command).must_equal JSON_FORMAT_COMMAND

@@ -11,7 +11,7 @@ module CodePraise
           .target(target)
           .except('Metrics')
           .format('json')
-          .with_std_error
+          .with_stderr_output
       end
 
       def report

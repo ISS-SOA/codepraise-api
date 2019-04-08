@@ -24,12 +24,20 @@ module CodePraise
         files.map(&:line_count).reduce(&:+)
       end
 
-      def total_credits
-        files.map(&:total_credits).sum
+      def total_line_credits
+        files.map(&:total_line_credits).sum
       end
 
       def lines
         files.map(&:lines).reduce(&:+)
+      end
+
+      def average_complexity
+        files_complexity = files.map(&:complexity).reject(&:nil?)
+
+        return 0 if files_complexity.count.zero?
+
+        files_complexity.map(&:average).reduce(:+) / files_complexity.count
       end
 
       def base_files
@@ -60,12 +68,12 @@ module CodePraise
         base_files.count.positive?
       end
 
-      def credit_share
-        @credit_share ||= files.map(&:credit_share).reduce(&:+)
+      def line_credit_share
+        @credit_share ||= files.map(&:line_credit_share).reduce(&:+)
       end
 
       def contributors
-        credit_share.contributors
+        line_credit_share.contributors
       end
 
       private

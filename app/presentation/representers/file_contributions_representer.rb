@@ -18,13 +18,13 @@ module CodePraise
       include Roar::JSON
 
       property :line_count
-      property :total_credits
+      property :total_line_credits
       property :total_methods
-      property :multiline_comments
-      property :comments
+      property :multiline_comment_count
+      property :singleline_comment_count
       collection :methods, extend: Representer::MethodContributions, class: OpenStruct
       property :file_path, extend: Representer::FilePath, class: OpenStruct
-      property :credit_share, extend: Representer::CreditShare, class: OpenStruct
+      property :line_credit_share, extend: Representer::CreditShare, class: OpenStruct
       property :complexity, extend: Representer::Complexity, class: OpenStruct
       property :idiomaticity, extend: Representer::Idiomaticity, class: OpenStruct
       collection :contributors, extend: Representer::Contributor, class: OpenStruct

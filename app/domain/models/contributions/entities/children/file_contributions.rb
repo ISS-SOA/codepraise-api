@@ -22,11 +22,11 @@ module CodePraise
         @methods = methods
       end
 
-      def total_credits
-        credit_share.total_credits
+      def total_line_credits
+        line_credit_share.total_credits
       end
 
-      def credit_share
+      def line_credit_share
         return Value::CreditShare.new if not_wanted
 
         @credit_share ||= lines
@@ -36,7 +36,7 @@ module CodePraise
       end
 
       def contributors
-        credit_share.contributors
+        line_credit_share.contributors
       end
 
       private
