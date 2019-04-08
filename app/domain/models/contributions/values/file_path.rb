@@ -16,7 +16,7 @@ module CodePraise
 
       def folder_after(root)
         raise(ArgumentError, 'Path mismatch') unless
-          self.start_with?(root) || root.empty?
+        self.start_with?(root) || root.empty?
 
         matches = self.match(%r{(?<folder>^#{root}[^\/]+)[\/]?})
         matches[:folder]

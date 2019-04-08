@@ -8,7 +8,11 @@ module CodePraise
       end
 
       def build_entity
-        all_methods.map do |method|
+        methods = all_methods
+
+        return nil if methods.nil?
+
+        methods.map do |method|
           Entity::MethodContribution.new(
             name: method[:name],
             lines: method[:lines]

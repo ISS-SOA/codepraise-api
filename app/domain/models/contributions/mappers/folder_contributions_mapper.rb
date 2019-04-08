@@ -14,6 +14,7 @@ module CodePraise
         @folder_name = folder_name
         @contributions_reports = contributions_reports
         @repo_path = repo_path
+        @idiomaticity_mapper = Mapper::Idiomaticity.new(repo_path)
       end
 
       def build_entity
@@ -26,7 +27,8 @@ module CodePraise
 
       def file_summaries
         @contributions_reports.map do |file_report|
-          Mapper::FileContributions.new(file_report, @repo_path).build_entity
+          Mapper::FileContributions.new(file_report, @repo_path,
+                                        @idiomaticity_mapper).build_entity
         end
       end
 

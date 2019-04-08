@@ -5,12 +5,12 @@ require 'flog'
 module CodePraise
   module Complexity
     # ABC Metric calculation class
-    class AbcMetric
+    class FlogReporter
       def initialize(file_path)
         @file_path = file_path
       end
 
-      def calculate
+      def report
         return nil unless ruby_file?
 
         flog_result = flog_process

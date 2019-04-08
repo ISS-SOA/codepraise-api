@@ -25,7 +25,7 @@ module CodePraise
       end
 
       def total_methods
-        @methods.count
+        @methods.nil? ? 0 : @methods.count
       end
     end
   end

@@ -68,17 +68,6 @@ module CodePraise
         credit_share.contributors
       end
 
-      def subfolder_contributions
-        result = credit_share.contributors.inject({}) {|hash, contributor| hash[contributor.username] = []; hash}
-        subfolders.each do |subfolder|
-          result.each do |k, v|
-            percentage = subfolder.credit_share.percentage
-            result[k].push({percentage: (percentage[k].nil? ? 0.0 : percentage[k]), path: subfolder.path})
-          end
-        end
-        result
-      end
-
       private
 
       def comparitive_path

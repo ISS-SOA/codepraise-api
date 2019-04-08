@@ -9,7 +9,8 @@ module CodePraise
 
         contributors_percentage_hash = contributros_subfolders_percentage
         contributors_percentage_hash.each do |k, v|
-          contributors_percentage_hash[k] = Math.coefficient_variation(v)
+          nums = v.is_a?(Array) ? v : [v]
+          contributors_percentage_hash[k] = Math.coefficient_variation(nums)
         end
         contributors_percentage_hash
       end
@@ -23,8 +24,7 @@ module CodePraise
         contributors_hash = contributors.each_with_object({}) {|contributor, hash| hash[contributor.username] = []; hash}
         percentage_array.each do |subfolder_percentage|
           contributors_hash.keys.each do |k|
-            contributors_hash[k]
-              .push(subfolder_percentage[k].nil? ? 0 : subfolder_percentage[k])
+            contributors_hash[k].push(subfolder_percentage[k].nil? ? 0 : subfolder_percentage[k])
           end
         end
         contributors_hash

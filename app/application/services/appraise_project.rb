@@ -26,7 +26,6 @@ module CodePraise
         input[:project] = Repository::For.klass(Entity::Project).find_full_name(
           input[:requested].owner_name, input[:requested].project_name
         )
-
         if input[:project]
           Success(input)
         else

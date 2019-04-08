@@ -1,2 +1,2 @@
 queues:
-  - https://sqs.ap-northeast-1.amazonaws.com/503315808870/codepraise-clone-test
+  - https://sqs.us-east-2.amazonaws.com/700371359912/codepraise-clone-test

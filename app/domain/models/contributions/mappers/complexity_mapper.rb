@@ -22,8 +22,8 @@ module CodePraise
       private
 
       def abc_metric
-        abc_metric = CodePraise::Complexity::AbcMetric.new(@file_path)
-        CodePraise::Complexity::Calculator.new(abc_metric).calculate
+        flog = CodePraise::Complexity::FlogReporter.new(@file_path)
+        flog.report
       end
     end
   end

@@ -1,15 +1,13 @@
 # frozen_string_literal: true
 
-require_relative 'complexity_mapper'
-require_relative '../lib/measurement/idiomaticity'
-
 module CodePraise
   module Mapper
     # Summarizes a single file's contributions by team members
     class FileContributions
-      def initialize(file_report, repo_path)
+      def initialize(file_report, repo_path, idiomaticity_mapper)
         @file_report = file_report
         @repo_path = repo_path
+        @idiomaticity_mapper = idiomaticity_mapper
       end
 
       def build_entity
@@ -38,11 +36,7 @@ module CodePraise
 
       def idiomaticity
         file_path = Value::FilePath.new(filename)
-        idiomaticity_hash = Measurement::Idiomaticity.calculate("#{@repo_path}/#{file_path}")
-        Entity::Idiomaticity.new(
-          error_count: idiomaticity_hash[:error_count],
-          error_messages: idiomaticity_hash[:error_messages]
-        )
+        @idiomaticity_mapper.build_entity(file_path)
       end
 
       def summarize_line_reports(line_reports)
