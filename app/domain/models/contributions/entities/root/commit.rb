@@ -4,15 +4,13 @@ require 'dry-types'
 require 'dry-struct'
 require_relative '../children/contributor'
 
-
 module CodePraise
   module Entity
     # Entity for a single line of code contributed by a team-member
     class Commit < Dry::Struct
-
       include Dry::Types.module
 
-      attribute :committer,      Contributor
+      attribute :committer,     Contributor
       attribute :sha,           Strict::String
       attribute :date,          Params::DateTime
       attribute :size,          Strict::Integer
