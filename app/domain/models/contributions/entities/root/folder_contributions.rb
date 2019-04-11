@@ -40,10 +40,6 @@ module CodePraise
         files_complexity.map(&:average).reduce(:+) / files_complexity.count
       end
 
-      def total_offenses
-
-      end
-
       def base_files
         @base_files ||= files.select do |file|
           file.file_path.directory == comparitive_path
