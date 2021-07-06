@@ -13,8 +13,19 @@ module CodePraise
 
         Mapper::FolderContributions.new(
           folder_name,
-          parse_file_reports(blame)
+          parse_file_reports(blame),
+          @gitrepo.local.git_repo_path
         ).build_entity
+      end
+
+      def commits(since=nil)
+        commit_report = GitCommit::CommitReporter.new(@gitrepo)
+        commits = commit_report.commits(since)
+        empty_commit = commit_report.empty_commit
+
+        commits.map do |commit|
+          Mapper::Commit.new(commit, empty_commit).build_entity
+        end
       end
 
       def parse_file_reports(blame_output)

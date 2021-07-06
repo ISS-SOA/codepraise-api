@@ -4,14 +4,19 @@ module CodePraise
   module Mapper
     # Summarizes a single file's contributions by team members
     class FileContributions
-      def initialize(file_report)
+      def initialize(file_report, repo_path, idiomaticity_mapper)
         @file_report = file_report
+        @repo_path = repo_path
+        @idiomaticity_mapper = idiomaticity_mapper
       end
 
       def build_entity
         Entity::FileContributions.new(
           file_path: filename,
-          lines: contributions
+          lines: contributions,
+          complexity: complexity,
+          idiomaticity: idiomaticity,
+          methods: methods
         )
       end
 
@@ -25,6 +30,15 @@ module CodePraise
         summarize_line_reports(@file_report[1])
       end
 
+      def complexity
+        Mapper::Complexity.new("#{@repo_path}/#{filename}").build_entity
+      end
+
+      def idiomaticity
+        file_path = Value::FilePath.new(filename)
+        @idiomaticity_mapper.build_entity(file_path)
+      end
+
       def summarize_line_reports(line_reports)
         line_reports.map.with_index do |report, line_index|
           Entity::LineContribution.new(
@@ -34,6 +48,16 @@ module CodePraise
             number: index_to_number(line_index)
           )
         end
+      end
+
+      def methods
+        return [] unless ruby_file?
+
+        MethodContributions.new(contributions).build_entity
+      end
+
+      def ruby_file?
+        File.extname(@file_report[0]) == '.rb'
       end
 
       def contributor_from(report)

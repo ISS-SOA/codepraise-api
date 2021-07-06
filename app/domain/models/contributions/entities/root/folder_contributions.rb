@@ -1,16 +1,19 @@
 # frozen_string_literal: true
 
+
 module CodePraise
   module Entity
     # Entity for folder contributions
     class FolderContributions < SimpleDelegator
       include Mixins::ContributionsCalculator
+      include Mixins::CodeOnwershipCalculator
 
-      attr_reader :path, :files
+      attr_reader :path, :files, :repo_path
 
-      def initialize(path:, files:)
+      def initialize(path:, files:, repo_path:)
         @path = path
         @files = files
+        @repo_path = repo_path
         super(Types::HashedArrays.new)
 
         base_files.each { |file|   self[file.file_path.filename] = file }
@@ -21,12 +24,20 @@ module CodePraise
         files.map(&:line_count).reduce(&:+)
       end
 
-      def total_credits
-        files.map(&:total_credits).sum
+      def total_line_credits
+        files.map(&:total_line_credits).sum
       end
 
       def lines
         files.map(&:lines).reduce(&:+)
+      end
+
+      def average_complexity
+        files_complexity = files.map(&:complexity).reject(&:nil?)
+
+        return 0 if files_complexity.count.zero?
+
+        files_complexity.map(&:average).reduce(:+) / files_complexity.count
       end
 
       def base_files
@@ -45,7 +56,7 @@ module CodePraise
           end
 
         @subfolders = folders.map do |folder_name, folder_files|
-          FolderContributions.new(path: folder_name, files: folder_files)
+          FolderContributions.new(path: folder_name, files: folder_files, repo_path: @repo_path)
         end
       end
 
@@ -57,12 +68,12 @@ module CodePraise
         base_files.count.positive?
       end
 
-      def credit_share
-        @credit_share ||= files.map(&:credit_share).reduce(&:+)
+      def line_credit_share
+        @credit_share ||= files.map(&:line_credit_share).reduce(&:+)
       end
 
       def contributors
-        credit_share.contributors
+        line_credit_share.contributors
       end
 
       private

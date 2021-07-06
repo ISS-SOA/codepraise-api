@@ -3,6 +3,6 @@
 module CodePraise
   module Value
     # Contributions for a folder of a project
-    ProjectFolderContributions = Struct.new(:project, :folder)
+    ProjectFolderContributions = Struct.new(:project, :folder, :commits)
   end
 end

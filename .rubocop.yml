@@ -8,7 +8,7 @@ AllCops:
   Exclude:
     - '_*/**/*'
     # - '_snippets/**/*'
-    - 'app/infrastructure/git/repostore/**/*'
+    # - 'app/infrastructure/git/repostore/**/*'
 
 # ignore block length in non-production code
 Metrics/BlockLength:

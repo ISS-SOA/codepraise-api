@@ -4,3 +4,4 @@ coverage/
 .bundle/
 _snippets/
 _cache/
+.ruby-version

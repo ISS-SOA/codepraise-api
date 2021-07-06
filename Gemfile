@@ -37,9 +37,16 @@ gem 'aws-sdk-sqs', '~> 1'
 gem 'hirb', '~> 0.7'
 gem 'sequel', '~> 5.13'
 
+# Ruby AST unparser
+gem 'unparser'
+
+# Git Operation by using git object
+gem 'git', '~> 1.5'
+
 group :development, :test do
   gem 'database_cleaner'
   gem 'sqlite3'
+  gem 'factory_bot', '~> 5.0', '>= 5.0.2'
 end
 
 group :production do

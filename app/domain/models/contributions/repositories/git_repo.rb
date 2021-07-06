@@ -3,7 +3,7 @@
 module CodePraise
   # Maps over local and remote git repo infrastructure
   class GitRepo
-    MAX_SIZE = 1000 # for cloning, analysis, summaries, etc.
+    MAX_SIZE = 100000 # for cloning, analysis, summaries, etc.
 
     class Errors
       NoGitRepoFound = Class.new(StandardError)

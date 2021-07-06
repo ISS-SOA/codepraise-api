@@ -8,22 +8,27 @@ module CodePraise
     class FolderContributions
       attr_reader :folder_name
       attr_reader :contributions_reports
+      attr_reader :repo_path
 
-      def initialize(folder_name, contributions_reports)
+      def initialize(folder_name, contributions_reports, repo_path)
         @folder_name = folder_name
         @contributions_reports = contributions_reports
+        @repo_path = repo_path
+        @idiomaticity_mapper = Mapper::Idiomaticity.new(repo_path)
       end
 
       def build_entity
         Entity::FolderContributions.new(
           path: @folder_name,
-          files: file_summaries
+          files: file_summaries,
+          repo_path: @repo_path
         )
       end
 
       def file_summaries
         @contributions_reports.map do |file_report|
-          Mapper::FileContributions.new(file_report).build_entity
+          Mapper::FileContributions.new(file_report, @repo_path,
+                                        @idiomaticity_mapper).build_entity
         end
       end
 

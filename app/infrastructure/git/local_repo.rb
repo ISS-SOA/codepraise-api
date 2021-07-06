@@ -45,6 +45,7 @@ module CodePraise
             parts = full_path.split('/')
             parent = parts.length.equal?(1) ? '/' : parts[0..-2].join('/')
             (structure[parent] ||= []).push(full_path)
+            structure
           end
         end
       end

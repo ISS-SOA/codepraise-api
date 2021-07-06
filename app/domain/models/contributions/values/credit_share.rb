@@ -30,6 +30,18 @@ module CodePraise
         other.class == self.class && other.state == self.state
       end
 
+      def share_percentage
+        sum = share.values.reduce(&:+)
+        share.keys.inject({}) do |result, key|
+          if sum == 0
+            result[key] = 0
+          else
+            result[key] = ((share[key].to_f / sum) * 100).round
+          end
+          result
+        end
+      end
+
       alias eql? ==
 
       def hash

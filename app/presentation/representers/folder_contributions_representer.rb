@@ -16,10 +16,12 @@ module CodePraise
 
       property :path
       property :line_count
-      property :total_credits
+      property :total_line_credits
       property :any_subfolders?
       property :any_base_files?
-      property :credit_share, extend: Representer::CreditShare, class: OpenStruct
+      property :coefficient_variation
+      property :average_complexity
+      property :line_credit_share, extend: Representer::CreditShare, class: OpenStruct
       collection :base_files, extend: Representer::FileContributions, class: OpenStruct
       collection :subfolders, extend: Representer::FolderContributions, class: OpenStruct
       collection :contributors, extend: Representer::Contributor, class: OpenStruct
